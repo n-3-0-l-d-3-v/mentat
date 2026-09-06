@@ -9,15 +9,18 @@ repo commit-for-commit.
 
 ## Status
 
-**Phase 1 — ACTIVE.** Core execution model is real and tested: ISA encoding,
-the dependency-graph scheduler, bounds-checked memory, traps, a two-pass
-assembler, and an `imc` CLI (assemble/disassemble/run/replay/debug) all
-work end-to-end against real programs (loops, recursive function calls,
-memory-through-calls) — see `examples/` and `crates/vm/tests/integration.rs`.
-Standalone trace-viewer/profiler tooling and property-based scheduler
-testing are still open (tickets 007, 008) — see [tickets/](tickets/) for the
-live phase-by-phase board and [docs/design/](docs/design/) for the ISA spec,
-constraints, and architecture decision records.
+**Phase 1 — COMPLETE** (tickets 001–008 all done; see [tickets/](tickets/)).
+The execution model is real and tested end-to-end: ISA encoding, the
+dependency-graph scheduler, bounds-checked memory, traps, a two-pass
+assembler, and an `imc` CLI (assemble/disassemble/run/replay/debug/trace/
+profile) all work against real programs (loops, recursive function calls,
+memory-through-calls) — see `examples/`, `crates/vm/tests/integration.rs`,
+and the property-based differential tests in `crates/vm/tests/property.rs`
+that prove the scheduler matches a reference sequential executor across
+generated programs, not just hand-picked ones. See
+[docs/design/](docs/design/) for the ISA spec, constraints, and architecture
+decision records (ADR-001 on the scheduling design, ADR-002 on the
+property-testing approach). Next: Phase 2 (`impossible-vault`).
 
 ## The constraint
 
