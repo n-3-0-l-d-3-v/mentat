@@ -1,0 +1,17 @@
+[package]
+name = "imc"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "imc"
+path = "src/main.rs"
+
+[dependencies]
+isa = { path = "../isa" }
+vm = { path = "../vm" }
+asm = { path = "../asm" }
+clap.workspace = true
+anyhow.workspace = true
+serde_json.workspace = true
