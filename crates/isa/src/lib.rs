@@ -4,6 +4,7 @@
 //! program counter. See `docs/design/ISA.md` in this repo for the full spec.
 
 pub mod decode;
+pub mod disasm;
 pub mod encode;
 pub mod opcode;
 pub mod program;
@@ -32,7 +33,13 @@ impl Instruction {
     pub const ENCODED_LEN: usize = 8;
 
     pub fn new(opcode: Opcode, dst: u8, src1: u8, src2: u8, imm: i32) -> Self {
-        Self { opcode, dst, src1, src2, imm }
+        Self {
+            opcode,
+            dst,
+            src1,
+            src2,
+            imm,
+        }
     }
 }
 

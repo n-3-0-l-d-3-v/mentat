@@ -2,14 +2,23 @@ use crate::{DecodeError, Instruction, Opcode};
 
 pub fn decode(buf: &[u8]) -> Result<Instruction, DecodeError> {
     if buf.len() < Instruction::ENCODED_LEN {
-        return Err(DecodeError::TooShort { need: Instruction::ENCODED_LEN, have: buf.len() });
+        return Err(DecodeError::TooShort {
+            need: Instruction::ENCODED_LEN,
+            have: buf.len(),
+        });
     }
     let opcode = Opcode::from_byte(buf[0])?;
     let dst = buf[1];
     let src1 = buf[2];
     let src2 = buf[3];
     let imm = i32::from_le_bytes([buf[4], buf[5], buf[6], buf[7]]);
-    Ok(Instruction { opcode, dst, src1, src2, imm })
+    Ok(Instruction {
+        opcode,
+        dst,
+        src1,
+        src2,
+        imm,
+    })
 }
 
 pub fn decode_program(buf: &[u8]) -> Result<Vec<Instruction>, DecodeError> {

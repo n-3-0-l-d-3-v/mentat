@@ -14,7 +14,10 @@ pub struct Block {
 
 impl Block {
     pub fn new(label: impl Into<String>) -> Self {
-        Self { label: label.into(), instructions: Vec::new() }
+        Self {
+            label: label.into(),
+            instructions: Vec::new(),
+        }
     }
 
     pub fn push(&mut self, ins: Instruction) -> &mut Self {
@@ -58,7 +61,10 @@ impl Program {
     /// well-formed before the VM ever schedules an instruction out of it.
     pub fn validate(&self) -> Result<(), ValidationError> {
         if self.entry >= self.blocks.len() {
-            return Err(ValidationError::EntryOutOfRange(self.entry, self.blocks.len()));
+            return Err(ValidationError::EntryOutOfRange(
+                self.entry,
+                self.blocks.len(),
+            ));
         }
         for (bi, block) in self.blocks.iter().enumerate() {
             if block.instructions.is_empty() {
@@ -90,7 +96,9 @@ impl Program {
                     }
                 }
                 use crate::Opcode::*;
-                if matches!(ins.opcode, Jmp | Jz | Jnz | Call) && (ins.imm as usize) >= self.blocks.len() {
+                if matches!(ins.opcode, Jmp | Jz | Jnz | Call)
+                    && (ins.imm as usize) >= self.blocks.len()
+                {
                     return Err(ValidationError::BlockOutOfRange(
                         bi,
                         block.label.clone(),
