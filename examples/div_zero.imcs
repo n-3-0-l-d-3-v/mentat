@@ -1,0 +1,5 @@
+block entry:
+    loadi r0, 10
+    loadi r1, 0
+    div r2, r0, r1
+    halt

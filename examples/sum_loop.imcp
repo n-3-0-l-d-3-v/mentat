@@ -1,0 +1,133 @@
+{
+  "blocks": [
+    {
+      "label": "entry",
+      "instructions": [
+        {
+          "opcode": "LoadI",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 0
+        },
+        {
+          "opcode": "LoadI",
+          "dst": 1,
+          "src1": 0,
+          "src2": 0,
+          "imm": 1
+        },
+        {
+          "opcode": "LoadI",
+          "dst": 2,
+          "src1": 0,
+          "src2": 0,
+          "imm": 5
+        },
+        {
+          "opcode": "Jmp",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 1
+        }
+      ]
+    },
+    {
+      "label": "loop_check",
+      "instructions": [
+        {
+          "opcode": "CmpGt",
+          "dst": 3,
+          "src1": 1,
+          "src2": 2,
+          "imm": 0
+        },
+        {
+          "opcode": "Jnz",
+          "dst": 0,
+          "src1": 3,
+          "src2": 0,
+          "imm": 3
+        }
+      ]
+    },
+    {
+      "label": "loop_body",
+      "instructions": [
+        {
+          "opcode": "Add",
+          "dst": 0,
+          "src1": 0,
+          "src2": 1,
+          "imm": 0
+        },
+        {
+          "opcode": "LoadI",
+          "dst": 4,
+          "src1": 0,
+          "src2": 0,
+          "imm": 1
+        },
+        {
+          "opcode": "Add",
+          "dst": 1,
+          "src1": 1,
+          "src2": 4,
+          "imm": 0
+        },
+        {
+          "opcode": "Jmp",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 1
+        }
+      ]
+    },
+    {
+      "label": "after_loop",
+      "instructions": [
+        {
+          "opcode": "Call",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 5
+        }
+      ]
+    },
+    {
+      "label": "done",
+      "instructions": [
+        {
+          "opcode": "Halt",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 0
+        }
+      ]
+    },
+    {
+      "label": "print_result",
+      "instructions": [
+        {
+          "opcode": "Syscall",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 0
+        },
+        {
+          "opcode": "Ret",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 0
+        }
+      ]
+    }
+  ],
+  "entry": 0
+}

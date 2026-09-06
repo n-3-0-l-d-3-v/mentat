@@ -1,0 +1,38 @@
+{
+  "blocks": [
+    {
+      "label": "entry",
+      "instructions": [
+        {
+          "opcode": "LoadI",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 10
+        },
+        {
+          "opcode": "LoadI",
+          "dst": 1,
+          "src1": 0,
+          "src2": 0,
+          "imm": 0
+        },
+        {
+          "opcode": "Div",
+          "dst": 2,
+          "src1": 0,
+          "src2": 1,
+          "imm": 0
+        },
+        {
+          "opcode": "Halt",
+          "dst": 0,
+          "src1": 0,
+          "src2": 0,
+          "imm": 0
+        }
+      ]
+    }
+  ],
+  "entry": 0
+}

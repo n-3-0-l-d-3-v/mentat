@@ -1,0 +1,26 @@
+; sums 1..5 via a loop and prints the result via a function call, then halts.
+block entry:
+    loadi r0, 0      ; r0 = accumulator
+    loadi r1, 1      ; r1 = i
+    loadi r2, 5      ; r2 = limit
+    jmp loop_check
+
+block loop_check:
+    cmpgt r3, r1, r2
+    jnz r3, after_loop
+
+block loop_body:
+    add r0, r0, r1
+    loadi r4, 1
+    add r1, r1, r4
+    jmp loop_check
+
+block after_loop:
+    call print_result
+
+block done:
+    halt
+
+block print_result:
+    syscall 0
+    ret
