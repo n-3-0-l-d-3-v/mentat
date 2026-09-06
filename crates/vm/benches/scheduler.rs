@@ -15,7 +15,10 @@ fn chain_program(n: usize) -> Program {
         block.push(Instruction::new(Opcode::Add, r, r, r, 0));
     }
     block.push(Instruction::new(Opcode::Halt, 0, 0, 0, 0));
-    Program { blocks: vec![block], entry: 0 }
+    Program {
+        blocks: vec![block],
+        entry: 0,
+    }
 }
 
 fn bench_run(c: &mut Criterion) {

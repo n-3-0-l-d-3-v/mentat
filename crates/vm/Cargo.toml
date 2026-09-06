@@ -13,6 +13,7 @@ thiserror.workspace = true
 [dev-dependencies]
 asm = { path = "../asm" }
 criterion = "0.5"
+proptest = "1"
 
 [[bench]]
 name = "scheduler"

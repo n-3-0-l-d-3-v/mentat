@@ -158,6 +158,68 @@ impl Vm {
         }
     }
 
+    /// Reference implementation: executes the current block in plain
+    /// program order (index 0, 1, 2, ...) instead of scheduling by
+    /// dependency readiness — i.e. exactly what a conventional
+    /// program-counter machine would do. This exists purely so property
+    /// tests can differentially check that dependency-driven scheduling
+    /// (`step_block`) produces identical final state to sequential
+    /// execution for any block whose only ordering requirement is the data
+    /// dependencies `depgraph::build` encodes. A divergence between the two
+    /// would mean the dependency graph is missing an edge somewhere.
+    pub fn step_block_sequential(&mut self) -> Result<Option<ExitReason>, Trap> {
+        let block_idx = self.current_block;
+        let block = self.program.blocks[block_idx].clone();
+        let n = block.instructions.len();
+        let mut terminator_target = None;
+
+        for (i, ins) in block.instructions.iter().enumerate() {
+            self.steps_taken += 1;
+            if self.steps_taken > self.step_budget {
+                return Err(Trap::StepBudgetExceeded {
+                    budget: self.step_budget,
+                });
+            }
+            let result = self.execute(ins, block_idx, i)?;
+            if ins.opcode.is_terminator() {
+                terminator_target = Some(self.resolve_terminator(ins, block_idx, i)?);
+            }
+            self.trace.steps.push(TraceStep {
+                step: self.steps_taken,
+                block: block_idx,
+                block_label: block.label.clone(),
+                instr_index: i,
+                mnemonic: ins.opcode.mnemonic().to_string(),
+                result,
+            });
+            if let Some(exit) = self.pending_exit.take() {
+                return Ok(Some(exit));
+            }
+        }
+
+        match self.program.blocks[block_idx].instructions[n - 1].opcode {
+            Opcode::Halt => Ok(Some(ExitReason::Halted)),
+            _ => {
+                self.current_block = terminator_target.expect("terminator must set a target");
+                Ok(None)
+            }
+        }
+    }
+
+    /// Runs to completion using `step_block_sequential` instead of the
+    /// dependency-driven scheduler. See `step_block_sequential` for why.
+    pub fn run_sequential(&mut self) -> Result<ExitReason, Trap> {
+        loop {
+            if let Some(exit) = self.step_block_sequential()? {
+                self.trace.final_registers = self.regs.snapshot();
+                self.trace.final_memory_hash = hash_bytes(self.memory.as_slice());
+                self.trace.exit = format!("{exit:?}");
+                self.trace.output = self.output.clone();
+                return Ok(exit);
+            }
+        }
+    }
+
     /// Applies one instruction's semantics. Returns the value written to
     /// `dst`, if any, purely for trace/debug readability.
     fn execute(
