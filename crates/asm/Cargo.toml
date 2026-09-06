@@ -1,0 +1,9 @@
+[package]
+name = "asm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+isa = { path = "../isa" }
+thiserror.workspace = true
