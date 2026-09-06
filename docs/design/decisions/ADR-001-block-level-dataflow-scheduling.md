@@ -47,7 +47,7 @@ still exists.
   program counter anywhere in the system — there is a current-block index
   that advances by explicit control transfer rather than by `+1`. This is
   documented plainly in `docs/design/ISA.md` rather than glossed over.
-- **Future work:** Phase 3 (`impossible-language`) will need a real
-  control-flow-graph-to-block lowering; Phase 9 (`impossible-artifact`) may
+- **Future work:** Phase 3 (`chakobsa`) will need a real
+  control-flow-graph-to-block lowering; Phase 9 (`shai-hulud`) may
   revisit finer-grained dataflow if block-level scheduling proves too
   coarse to be interesting there.

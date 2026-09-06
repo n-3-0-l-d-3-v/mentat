@@ -95,7 +95,7 @@ trap).
 
 `syscall 0` prints `r0` as a signed decimal integer. `syscall 1` exits with
 `r0` as the exit code. This is intentionally minimal — Phase 1's job is the
-execution model, not an OS ABI (that's `impossible-kernel`, Phase 4).
+execution model, not an OS ABI (that's `muaddib`, Phase 4).
 
 ## What Phase 1 does *not* claim
 

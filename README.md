@@ -1,8 +1,12 @@
-# impossible-machine — THE MACHINE
+# MENTAT — THE MACHINE
 
 > A dependency-driven virtual machine with no instruction pointer.
 
-Part of **[The Impossible Computer](https://github.com/n-3-0-l-d-3-v/impossible-computer)** — a constrained computing
+## Why "MENTAT"
+
+After the Butlerian Jihad outlawed "thinking machines" ("thou shalt not make a machine in the likeness of a human mind"), humans trained themselves into Mentats — living computers that process information without any conventional computing architecture underneath them. Mentats exist *because* the normal machine was forbidden and had to compute anyway, using an entirely different internal model. That is precisely what a dependency-scheduled VM with no program counter is doing.
+
+Part of **[ARRAKIS](https://github.com/n-3-0-l-d-3-v/arrakis)** — a constrained computing
 ecosystem built by removing assumptions ordinary computers depend on. This
 repository is developed standalone and mirrored into the combined ecosystem
 repo commit-for-commit.
@@ -20,7 +24,7 @@ that prove the scheduler matches a reference sequential executor across
 generated programs, not just hand-picked ones. See
 [docs/design/](docs/design/) for the ISA spec, constraints, and architecture
 decision records (ADR-001 on the scheduling design, ADR-002 on the
-property-testing approach). Next: Phase 2 (`impossible-vault`).
+property-testing approach). Next: Phase 2 (`sietch`).
 
 ## The constraint
 
@@ -36,14 +40,14 @@ Fixed-size instruction encoding, bounded physical registers, explicit operand de
 
 ## Sibling repositories
 
-- [impossible-language](https://github.com/n-3-0-l-d-3-v/impossible-language) — THE LANGUAGE (QUEUED)
-- [impossible-kernel](https://github.com/n-3-0-l-d-3-v/impossible-kernel) — THE KERNEL (QUEUED)
-- [impossible-vault](https://github.com/n-3-0-l-d-3-v/impossible-vault) — THE VAULT (QUEUED)
-- [impossible-database](https://github.com/n-3-0-l-d-3-v/impossible-database) — THE DATABASE (QUEUED)
-- [impossible-wire](https://github.com/n-3-0-l-d-3-v/impossible-wire) — THE WIRE (QUEUED)
-- [impossible-colony](https://github.com/n-3-0-l-d-3-v/impossible-colony) — THE COLONY (QUEUED)
-- [impossible-history](https://github.com/n-3-0-l-d-3-v/impossible-history) — THE HISTORY (QUEUED)
-- [impossible-artifact](https://github.com/n-3-0-l-d-3-v/impossible-artifact) — THE ARTIFACT (STRETCH)
+- [chakobsa](https://github.com/n-3-0-l-d-3-v/chakobsa) — THE LANGUAGE (QUEUED)
+- [muaddib](https://github.com/n-3-0-l-d-3-v/muaddib) — THE KERNEL (QUEUED)
+- [sietch](https://github.com/n-3-0-l-d-3-v/sietch) — THE VAULT (ACTIVE)
+- [choam](https://github.com/n-3-0-l-d-3-v/choam) — THE DATABASE (QUEUED)
+- [distrans](https://github.com/n-3-0-l-d-3-v/distrans) — THE WIRE (QUEUED)
+- [landsraad](https://github.com/n-3-0-l-d-3-v/landsraad) — THE COLONY (QUEUED)
+- [ghola](https://github.com/n-3-0-l-d-3-v/ghola) — THE HISTORY (QUEUED)
+- [shai-hulud](https://github.com/n-3-0-l-d-3-v/shai-hulud) — THE ARTIFACT (STRETCH)
 
 ## Development
 

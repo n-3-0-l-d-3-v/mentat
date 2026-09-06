@@ -1,4 +1,4 @@
-# Ticket board — impossible-machine
+# Ticket board — mentat
 
 Tickets are markdown files named `NNN-short-title.md` with frontmatter
 `status: open | in-progress | done` and `phase: N`. This repo is built
