@@ -72,7 +72,10 @@ mod tests {
     use isa::{Instruction, Opcode};
 
     fn block_of(instrs: Vec<Instruction>) -> Block {
-        Block { label: "b".into(), instructions: instrs }
+        Block {
+            label: "b".into(),
+            instructions: instrs,
+        }
     }
 
     #[test]

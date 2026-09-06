@@ -9,7 +9,9 @@ pub struct RegisterFile {
 
 impl Default for RegisterFile {
     fn default() -> Self {
-        Self { values: [0; NUM_REGISTERS] }
+        Self {
+            values: [0; NUM_REGISTERS],
+        }
     }
 }
 

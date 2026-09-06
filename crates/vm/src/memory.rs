@@ -12,7 +12,9 @@ pub const WORD_LEN: usize = 8;
 
 impl Memory {
     pub fn new(size: usize) -> Self {
-        Self { bytes: vec![0u8; size] }
+        Self {
+            bytes: vec![0u8; size],
+        }
     }
 
     pub fn len(&self) -> usize {
@@ -46,7 +48,13 @@ impl Memory {
         Ok(u64::from_le_bytes(buf))
     }
 
-    pub fn store_u64(&mut self, addr: u64, value: u64, block: usize, instr: usize) -> Result<(), Trap> {
+    pub fn store_u64(
+        &mut self,
+        addr: u64,
+        value: u64,
+        block: usize,
+        instr: usize,
+    ) -> Result<(), Trap> {
         let start = addr as usize;
         let end = start.checked_add(WORD_LEN).ok_or(Trap::OutOfBoundsMemory {
             addr,

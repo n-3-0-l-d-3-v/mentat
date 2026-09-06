@@ -11,3 +11,9 @@ serde_json.workspace = true
 thiserror.workspace = true
 
 [dev-dependencies]
+asm = { path = "../asm" }
+criterion = "0.5"
+
+[[bench]]
+name = "scheduler"
+harness = false

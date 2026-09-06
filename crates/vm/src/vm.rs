@@ -63,7 +63,7 @@ impl Vm {
     /// trap fires or the step budget is exhausted.
     pub fn run(&mut self) -> Result<ExitReason, Trap> {
         loop {
-            if let Some(exit) = self.run_block()? {
+            if let Some(exit) = self.step_block()? {
                 self.trace.final_registers = self.regs.snapshot();
                 self.trace.final_memory_hash = hash_bytes(self.memory.as_slice());
                 self.trace.exit = format!("{exit:?}");
@@ -76,7 +76,9 @@ impl Vm {
     /// Executes exactly one block via the dependency-driven scheduler, then
     /// returns `Some(exit)` if the program halted/exited, or `None` if
     /// control transferred to another block and execution should continue.
-    fn run_block(&mut self) -> Result<Option<ExitReason>, Trap> {
+    /// Public so a debugger can single-step block-by-block instead of
+    /// running the whole program in one call.
+    pub fn step_block(&mut self) -> Result<Option<ExitReason>, Trap> {
         let block_idx = self.current_block;
         let block = self.program.blocks[block_idx].clone();
         let graph = depgraph::build(&block);
@@ -107,7 +109,9 @@ impl Vm {
             ready.remove(&i);
             self.steps_taken += 1;
             if self.steps_taken > self.step_budget {
-                return Err(Trap::StepBudgetExceeded { budget: self.step_budget });
+                return Err(Trap::StepBudgetExceeded {
+                    budget: self.step_budget,
+                });
             }
 
             let ins = block.instructions[i];
@@ -140,7 +144,10 @@ impl Vm {
             }
         }
 
-        debug_assert_eq!(executed, n, "dependency graph must be a DAG covering the whole block");
+        debug_assert_eq!(
+            executed, n,
+            "dependency graph must be a DAG covering the whole block"
+        );
 
         match self.program.blocks[block_idx].instructions[n - 1].opcode {
             Opcode::Halt => Ok(Some(ExitReason::Halted)),
@@ -153,7 +160,12 @@ impl Vm {
 
     /// Applies one instruction's semantics. Returns the value written to
     /// `dst`, if any, purely for trace/debug readability.
-    fn execute(&mut self, ins: &Instruction, block: usize, instr: usize) -> Result<Option<i64>, Trap> {
+    fn execute(
+        &mut self,
+        ins: &Instruction,
+        block: usize,
+        instr: usize,
+    ) -> Result<Option<i64>, Trap> {
         use Opcode::*;
         let a = || self.regs.get(ins.src1);
         let b = || self.regs.get(ins.src2);
@@ -296,11 +308,20 @@ impl Vm {
                 self.pending_exit = Some(ExitReason::SyscallExit(self.regs.get(0)));
                 Ok(())
             }
-            other => Err(Trap::UnknownSyscall { number: other, block, instr }),
+            other => Err(Trap::UnknownSyscall {
+                number: other,
+                block,
+                instr,
+            }),
         }
     }
 
-    fn resolve_terminator(&mut self, ins: &Instruction, block: usize, instr: usize) -> Result<usize, Trap> {
+    fn resolve_terminator(
+        &mut self,
+        ins: &Instruction,
+        block: usize,
+        instr: usize,
+    ) -> Result<usize, Trap> {
         use Opcode::*;
         match ins.opcode {
             Jmp => Ok(ins.imm as usize),
@@ -320,7 +341,11 @@ impl Vm {
             }
             Call => {
                 if self.call_stack.len() >= MAX_CALL_DEPTH {
-                    return Err(Trap::CallStackOverflow { depth: self.call_stack.len(), block, instr });
+                    return Err(Trap::CallStackOverflow {
+                        depth: self.call_stack.len(),
+                        block,
+                        instr,
+                    });
                 }
                 self.call_stack.push(block + 1);
                 Ok(ins.imm as usize)
