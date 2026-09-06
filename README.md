@@ -9,11 +9,15 @@ repo commit-for-commit.
 
 ## Status
 
-**Phase 1 — ACTIVE**
-
-See [tickets/](tickets/) for the live phase-by-phase ticket board and
-[docs/design/](docs/design/) for constraints, invariants and architecture
-decision records.
+**Phase 1 — ACTIVE.** Core execution model is real and tested: ISA encoding,
+the dependency-graph scheduler, bounds-checked memory, traps, a two-pass
+assembler, and an `imc` CLI (assemble/disassemble/run/replay/debug) all
+work end-to-end against real programs (loops, recursive function calls,
+memory-through-calls) — see `examples/` and `crates/vm/tests/integration.rs`.
+Standalone trace-viewer/profiler tooling and property-based scheduler
+testing are still open (tickets 007, 008) — see [tickets/](tickets/) for the
+live phase-by-phase board and [docs/design/](docs/design/) for the ISA spec,
+constraints, and architecture decision records.
 
 ## The constraint
 
